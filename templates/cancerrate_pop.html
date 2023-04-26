@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.1.1/chartjs-plugin-zoom.min.js"></script>
+</head>
+<body>
+    <h1 style="color:rgb(16, 48, 163);">Cancer Incidence Rate vs. Population (per US county) - 2015</h1><br>
+    <canvas id="lineChart" width="1500" height="400"></canvas>
+    <script>
+        
+        var ctx = document.getElementById("lineChart").getContext("2d");
+        var lineChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: {{ labels | safe }},
+                datasets: [
+                    {
+                        label: "Cancer incidence per US county in 2015.",
+                        data: {{ values | safe }},
+                        fill: false,
+                        borderColor: "rgb(16, 48, 163)",
+                        lineTension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: false,
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 11000000,
+                            stepSize: 250000,
+                            fontSize: 14, // Add this line to set the font size
+                            autoSkip: true, 
+                            maxRotation: 90, // Add this line to set the maximum rotation angle to 90 degrees
+                            minRotation: 90, // Add this line to set the minimum rotation angle to 90 degrees
+                        },
+                        gridLines: {
+                            display: true,
+                            drawOnChartArea: false,
+                            drawTicks: true,
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Population',
+                        },
+                        afterTickToLabelConversion: function(scaleInstance) {
+                            scaleInstance.ticks.splice(6, 1);
+                            scaleInstance.ticks.splice(12, 1);
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 1300,
+                            stepSize: 100,
+                         },
+                        gridLines: {
+                            display: true,
+                            drawOnChartArea: false,
+                            drawTicks: true,
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Cancer Incidence Rate',
+                        },
+                    }]
+                },
+                annotation: {
+                    annotations: [{
+                        type: 'line',
+                        mode: 'horizontal',
+                        scaleID: 'y-axis-0',
+                        value: 1000,
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        label: {
+                            backgroundColor: "red",
+                            content: "Threshold",
+                            enabled: true
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: "Cancer Incidence Rate vs. Population",
+                    fontSize: 18
+                },
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        fontSize: 12,
+                        fontColor: 'black'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

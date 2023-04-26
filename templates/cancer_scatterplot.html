@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+</head>
+
+<body>
+    <h1>Health Rates per State - US (2015)</h1><br>
+    <canvas id="chart" width="1500" height="400"></canvas>
+    <script>
+
+
+
+        var datasets = {{ values | safe }}
+        var state_ids = {{ labels | safe }}
+
+
+        console.log({ datasets, state_ids })
+
+        const makePoints =(set_name) =>{
+            const points = datasets[set_name].map((value, index) => ({ x:index, y: value }))
+            console.log({ set_name, points })
+            return points
+        }
+
+       
+
+        var ctx = document.getElementById("chart").getContext("2d");
+        var lineChart = new Chart(ctx, {
+            type: "scatter",
+            data: {
+                labels: state_ids,
+                datasets: [
+                    //state_cancer_incidence_rates
+                    {
+                        label: "Cancer Incidence Rate",
+                        data: makePoints('state_cancer_incidence_rates'),
+
+                        borderColor: 'red',
+                        backgroundColor: 'red'
+                    },
+                    // state_mortality_rates
+                    {
+                        label: "Mortality Rate",
+                        data: makePoints('state_mortality_rates'),
+
+                        borderColor: 'yellow',
+                        backgroundColor: 'yellow'
+                    },
+
+                    // state_target_deathrates
+                    {
+                        label: "Target Death Rate",
+                        data: makePoints('state_target_deathrates'),
+
+                    borderColor: 'blue',
+                    backgroundColor: 'blue'
+                    }
+        ]
+            },
+        options: {
+            responsive: true,
+                plugins: {
+                legend: {
+                    labels: state_ids,
+                    position: 'bottom',
+      },
+                title: {
+                    display: true,
+                        text: 'Chart.js Scatter Chart'
+                }
+            }
+        },
+        });
+
+    </script>
+</body>
+
+</html>
