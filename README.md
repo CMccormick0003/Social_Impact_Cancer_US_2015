@@ -70,7 +70,7 @@ This csv includes 32 columns and 3047 data rows.
 |  Column name          |                           Description                               | 
 |-----------------------|-------------------------------------------------------------------- |
 |  county               |    names of county                                                  | 
-|  county_full          |    county name + the word "Cunty"                                   | 
+|  county_full          |    county name + the word "County"                                   | 
 |  countyfips           |    unique federal code for county (4 to 5 digits)                   | 
 |  state_id             |    state abbreviation (2 capital letters)                           | 
 |  lat                  |    latitude                                                         | 
